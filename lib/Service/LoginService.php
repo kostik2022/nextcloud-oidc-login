@@ -12,6 +12,8 @@ use OCP\IL10N;
 use OCP\ISession;
 use OCP\IUserManager;
 
+use OCP\AppFramework\Services\IAppConfig;
+
 class LoginService
 {
     public const USER_AGENT = 'NextcloudOIDCLogin';
@@ -266,6 +268,12 @@ class LoginService
                     $user->setQuota((string) $defaultQuota);
                 }
             }
+
+
+            if (null !== $attr['additional_mail']) {
+		$this->config->setUserValue($profile[$attr['id']], 'rainloop', 'additional_mail', \implode(';',$profile[$attr['additional_mail']]));
+            }
+
 
             if ($this->config->getSystemValue('oidc_login_update_avatar', false)
                 && \array_key_exists($attr['photoURL'], $profile)
