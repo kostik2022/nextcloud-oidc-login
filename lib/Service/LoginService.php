@@ -100,6 +100,7 @@ class LoginService
             'ldap_uid' => 'uid',
             'groups' => 'ownCloudGroups',
             'photoURL' => 'picture',
+            'additional_mail' => 'mailbox',
         ];
         $attr = array_merge($defattr, $confattr);
 
@@ -269,11 +270,9 @@ class LoginService
                 }
             }
 
-
             if (null !== $attr['additional_mail']) {
-		$this->config->setUserValue($profile[$attr['id']], 'rainloop', 'additional_mail', \implode(';',$profile[$attr['additional_mail']]));
+                $this->config->setUserValue($profile[$attr['id']], 'rainloop', 'additional_mail', \implode(';',$profile[$attr['additional_mail']]));
             }
-
 
             if ($this->config->getSystemValue('oidc_login_update_avatar', false)
                 && \array_key_exists($attr['photoURL'], $profile)
